@@ -14,8 +14,8 @@ public class Handler implements io.vertx.core.Handler<RoutingContext> {
 	public void handle(RoutingContext event) {
 		MultiMap map=event.request().params();
 		
-		int start=Integer.parseInt(map.get("id1"));
-		int end=Integer.parseInt(map.get("id2"));
+		long start=Long.parseLong(map.get("id1"));
+		long end=Long.parseLong(map.get("id2"));
 		//do 
 		//
 	}

@@ -14,7 +14,11 @@ public class BuildMap {
 	 * @param end
 	 * @return length=2
 	 */
-	public TreeNode[] get(int start,int end){
+	public TreeNode[] get(long start,long end){
+		return null;
+	}
+	//
+	private TreeNode get(long i){
 		return null;
 	}
 }
