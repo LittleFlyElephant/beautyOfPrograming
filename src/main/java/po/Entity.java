@@ -7,17 +7,17 @@ import java.util.List;
  */
 public class Entity {
     private Long id;
-    private List<Long> cids;
+    private Long cid;
     private List<Long> fids;
-    private List<Long> jids;
+    private Long jid;
     private List<Long> auids;
     private List<Long> afids;
 
-    public Entity(Long id, List<Long> cids, List<Long> fids, List<Long> jids, List<Long> auids, List<Long> afids) {
+    public Entity(Long id, Long cid, List<Long> fids, Long jid, List<Long> auids, List<Long> afids) {
         this.id = id;
-        this.cids = cids;
+        this.cid = cid;
         this.fids = fids;
-        this.jids = jids;
+        this.jid = jid;
         this.auids = auids;
         this.afids = afids;
     }
@@ -25,44 +25,20 @@ public class Entity {
     public Entity() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setCids(List<Long> cids) {
-        this.cids = cids;
-    }
-
-    public void setFids(List<Long> fids) {
-        this.fids = fids;
-    }
-
-    public void setJids(List<Long> jids) {
-        this.jids = jids;
-    }
-
-    public void setAuids(List<Long> auids) {
-        this.auids = auids;
-    }
-
-    public void setAfids(List<Long> afids) {
-        this.afids = afids;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public List<Long> getCids() {
-        return cids;
+    public Long getCid() {
+        return cid;
     }
 
     public List<Long> getFids() {
         return fids;
     }
 
-    public List<Long> getJids() {
-        return jids;
+    public Long getJid() {
+        return jid;
     }
 
     public List<Long> getAuids() {
@@ -71,5 +47,29 @@ public class Entity {
 
     public List<Long> getAfids() {
         return afids;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCid(Long cid) {
+        this.cid = cid;
+    }
+
+    public void setFids(List<Long> fids) {
+        this.fids = fids;
+    }
+
+    public void setJid(Long jid) {
+        this.jid = jid;
+    }
+
+    public void setAuids(List<Long> auids) {
+        this.auids = auids;
+    }
+
+    public void setAfids(List<Long> afids) {
+        this.afids = afids;
     }
 }

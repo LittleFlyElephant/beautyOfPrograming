@@ -80,7 +80,7 @@ public class APIHelper {
     }
 
     public static void spideFromAuId(Long auid){
-        FileHelper.getExistedIdTable();
+        //FileHelper.getExistedIdTable();
         String base = "Id,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
         String expr_base = "Composite(AA.AuId=";
         List<Long> queue = new LinkedList<>();
@@ -136,7 +136,15 @@ public class APIHelper {
 //                }
 //        }
         //FileHelper.saveToFile(array, "src/main/resources/papers.txt");
-        spideFromAuId(Long.parseLong("2313280611"));
+        FileHelper.getExistedIdTable();
+        List<Long> existed = FileHelper.auidTable;
+        Long i = new Long(0);
+        for (Long auid: existed) {
+            spideFromAuId(auid);
+            System.out.println(i+" yes+++++++++");
+            i++;
+        }
+        //spideFromAuId(Long.parseLong("1591454549"));
 
         try {
             client.close();

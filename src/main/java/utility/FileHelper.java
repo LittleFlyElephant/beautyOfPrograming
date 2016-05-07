@@ -2,6 +2,7 @@ package utility;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import po.Entity;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ public class FileHelper {
     private static String idTablePath = "src/main/resources/papers_id.txt";
     public static String auidTablePath = "src/main/resources/papers_auid.txt";
 
-    public static void getExistedIdTable(){
+    public static void getExistedIdTable() {
         idTable = new LinkedList<>();
         auidTable = new LinkedList<>();
         try {
@@ -26,10 +27,10 @@ public class FileHelper {
             FileReader afr = new FileReader(auidTablePath);
             BufferedReader abr = new BufferedReader(afr);
             String line;
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 idTable.add(Long.parseLong(line));
             }
-            while ((line = abr.readLine()) != null){
+            while ((line = abr.readLine()) != null) {
                 auidTable.add(Long.parseLong(line));
             }
             br.close();
@@ -41,7 +42,7 @@ public class FileHelper {
         }
     }
 
-    public static void updateTables(List<Long> newIds, List<Long> newAuids){
+    public static void updateTables(List<Long> newIds, List<Long> newAuids) {
 
         try {
             FileWriter ifw = new FileWriter(idTablePath);
@@ -49,11 +50,11 @@ public class FileHelper {
             FileWriter afw = new FileWriter(auidTablePath);
             BufferedWriter abw = new BufferedWriter(afw);
 
-            for (Long i: newIds) {
+            for (Long i : newIds) {
                 ibw.write(i.toString());
                 ibw.newLine();
             }
-            for (Long i: newAuids) {
+            for (Long i : newAuids) {
                 abw.write(i.toString());
                 abw.newLine();
             }
@@ -67,7 +68,7 @@ public class FileHelper {
         }
     }
 
-    public static void saveToFile(JsonArray entities, String path){
+    public static void saveToFile(JsonArray entities, String path) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         //getExistedIdTable();
@@ -78,7 +79,7 @@ public class FileHelper {
             for (int i = 0; i < entities.size(); i++) {
                 JsonObject obj = entities.getJsonObject(i);
                 Long id = obj.getLong("Id");
-                if (!idTable.contains(id)){
+                if (!idTable.contains(id)) {
                     idTable.add(id);
                     System.out.println(id);
                     bufferedWriter.write(entities.getJsonObject(i).encode());
@@ -95,14 +96,14 @@ public class FileHelper {
         }
     }
 
-    public static JsonArray getFromFile(String path){
-        JsonArray entities = new JsonArray();
+    public static List<Entity> getFromFile(String path) {
+        List<Entity> entities = new LinkedList<>();
         try {
             FileReader fr = new FileReader(path);
             BufferedReader br = new BufferedReader(fr);
             String line;
-            while ((line = br.readLine()) != null){
-                entities.add(new JsonObject(line));
+            while ((line = br.readLine()) != null) {
+                entities.add(convertToEntity(new JsonObject(line)));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -110,5 +111,43 @@ public class FileHelper {
             e.printStackTrace();
         }
         return entities;
+    }
+
+    private static Entity convertToEntity(JsonObject jsonObject) {
+        Long cid = null;
+        List<Long> fids = new LinkedList<>();
+        Long jid = null;
+        List<Long> auids = new LinkedList<>();
+        List<Long> afids = new LinkedList<>();
+        JsonObject arrayObj = null;
+        JsonArray aa = jsonObject.getJsonArray("AA");
+        if (aa != null)
+            for (int i = 0; i < aa.size(); i++) {
+                arrayObj = aa.getJsonObject(i);
+                if (arrayObj!=null){
+                    Long auid = arrayObj.getLong("AuId");
+                    Long afid = arrayObj.getLong("AfId");
+                    if (auid!=null) auids.add(auid);
+                    if (afid!=null) afids.add(afid);
+                }
+            }
+        JsonObject c = jsonObject.getJsonObject("C");
+        if (c != null)
+            cid = c.getLong("CId");
+        JsonArray f = jsonObject.getJsonArray("F");
+        if (f != null)
+            for (int i = 0; i < f.size(); i++) {
+                arrayObj = f.getJsonObject(i);
+                if (arrayObj!=null){
+                    Long fid = arrayObj.getLong("FId");
+                    if (fid!=null) fids.add(fid);
+                }
+            }
+        JsonObject j = jsonObject.getJsonObject("J");
+        if (j != null)
+            jid = j.getLong("JId");
+
+        Entity entity = new Entity(jsonObject.getLong("Id"),cid,fids,jid,auids,afids);
+        return entity;
     }
 }
