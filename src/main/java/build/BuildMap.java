@@ -1,6 +1,15 @@
 package build;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import dataservice.DataImpl;
+import dataservice.DataService;
+import po.Entity;
 import po.TreeNode;
+import utility.SearchType;
 
 /**
 * beautyOfPrograming/build/BuildMap.java
@@ -8,6 +17,10 @@ import po.TreeNode;
 * 2016年5月7日 下午7:03:16
 */
 public class BuildMap {
+	private DataService service;
+	public BuildMap() {
+		service=new DataImpl();
+	}
 	/**
 	 * 
 	 * @param start
@@ -15,10 +28,59 @@ public class BuildMap {
 	 * @return length=2
 	 */
 	public TreeNode[] get(long start,long end){
-		return null;
+		TreeNode[] ans=new TreeNode[2];
+		ans[0]=get(start);
+		ans[1]=get(end);
+		return ans;
 	}
 	//
-	private TreeNode get(long i){
-		return null;
+	private TreeNode get(long n){
+		TreeNode root=new TreeNode(n);
+		//first
+		root.addNode(getEqual(n));
+		//second
+		List<TreeNode> sec=root.getNext();
+		for (TreeNode treeNode : sec) {
+			treeNode.addNode(getEqual(treeNode.n));
+		}
+		
+		return root;
+	}
+	
+	private Set<Long> getEqual(long n){
+		List<Entity> entities=service.getEntities(n, SearchType.ID);
+		//
+		Set<Long> set=new HashSet<>();
+		for(Entity entity: entities){
+			//cid
+			Set<Long> cids=getChild(entity.getCids(), SearchType.CID);
+			//fid
+			Set<Long> fids=getChild(entity.getFids(), SearchType.FID);
+			//jid
+			Set<Long> jids=getChild(entity.getJids(), SearchType.JID);
+			//auid
+			Set<Long> auids=getChild(entity.getAuids(), SearchType.AUID);
+			//afid
+			Set<Long> afids=getChild(entity.getAfids(), SearchType.AFID);
+			set.addAll(cids);
+			set.addAll(fids);
+			set.addAll(jids);
+			set.addAll(auids);
+			set.addAll(afids);
+		}
+		//
+		return set;
+	}
+	private Set<Long> getChild(List<Long> src,SearchType searchType){
+		if (src==null) {
+			return new HashSet<>();
+		}
+		Set<Long> ans=src.stream()
+				.flatMap(
+						l->
+						service.getEntities(l, searchType)
+						.stream().map(e->e.getId()))
+				.collect(Collectors.toSet());
+		return ans;
 	}
 }
