@@ -1,6 +1,6 @@
 package build;
 
-import datastructure.TreeNode;
+import po.TreeNode;
 
 /**
 * beautyOfPrograming/build/BuildMap.java
