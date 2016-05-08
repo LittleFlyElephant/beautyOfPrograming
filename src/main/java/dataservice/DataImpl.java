@@ -50,7 +50,7 @@ public class DataImpl implements DataService {
                     break;
             }
         }
-        if (ret.size() == 0) ret = getFromWeb(id, type);
+        //if (ret.size() == 0) ret = getFromWeb(id, type);
         return ret;
     }
 
@@ -88,14 +88,14 @@ public class DataImpl implements DataService {
         }
     }
 
-    public static void main(String[] args) {
-        DataService service = new DataImpl(FileHelper.getFromFile("src/main/resources/papers.txt"));
-        long before = new Date().getTime();
-        List<Entity> relatives = service.getEntities(Long.parseLong("97744766"), SearchType.FID);
-        System.out.println(new Date().getTime() - before);
-        for (Entity e : relatives) {
-            System.out.println(e.getId());
-        }
-    }
+//    public static void main(String[] args) {
+//        DataService service = new DataImpl(FileHelper.getFromFile("src/main/resources/papers.txt"));
+//        long before = new Date().getTime();
+//        List<Entity> relatives = service.getEntities(Long.parseLong("97744766"), SearchType.FID);
+//        System.out.println(new Date().getTime() - before);
+//        for (Entity e : relatives) {
+//            System.out.println(e.getId());
+//        }
+//    }
 
 }

@@ -5,6 +5,9 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import utility.APIHelper;
+import utility.FileHelper;
+
+import java.util.List;
 
 /**
  * Created by raychen on 16/5/6.
@@ -13,16 +16,25 @@ public class Launcher extends AbstractVerticle {
 
     @Override
     public void start(Future<Void> startFuture) throws Exception {
-        vertx
-                .createHttpServer()
-                .requestHandler(request -> {
-                    MultiMap params = request.params();
-                    String id1 = params.get("id1");
-                    String id2 = params.get("id2");
-//                    CalService calService = new CalImpl();
-//                    request.response().end(calService.calculate(id1,id2));
-                })
-                .listen(8020);
+//        vertx
+//                .createHttpServer()
+//                .requestHandler(request -> {
+//                    MultiMap params = request.params();
+//                    String id1 = params.get("id1");
+//                    String id2 = params.get("id2");
+////                    CalService calService = new CalImpl();
+////                    request.response().end(calService.calculate(id1,id2));
+//                })
+//                .listen(8020);
+        spider();
+    }
+
+    private void spider(){
+        FileHelper.getExistedIdTable();
+        List<Long> existed = FileHelper.auidTable;
+        for (Long auid: existed) {
+            APIHelper.spideFromAuId(auid);
+        }
     }
 
 }

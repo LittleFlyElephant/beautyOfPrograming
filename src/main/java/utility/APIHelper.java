@@ -10,7 +10,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -69,7 +68,7 @@ public class APIHelper {
             }
             else return null;
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("api:"+e.getMessage());
             return null;
         }
     }
@@ -112,39 +111,39 @@ public class APIHelper {
         }
     }
 
-    public static void main(String[] args) {
-        client = HttpClients.createDefault();
-//        String base = "Id,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
-//        JsonObject obj1 = getJson("Composite(AA.AuId=2239559232)", base);
-//        System.out.println(obj1.encode());
-//        JsonArray array = obj1.getJsonArray("entities");
-//////        System.out.println(array.encode());
-//        for (int i = 0; i < array.size(); i++) {
-//            JsonObject obj = array.getJsonObject(i);
-//            JsonArray aa = obj.getJsonArray("AA");
-//            if (aa!=null)
-//                for (int j = 0; j < aa.size(); j++) {
-//                    JsonObject aaSingle = aa.getJsonObject(j);
-//                    if (aaSingle!=null){
-//                        System.out.println(aaSingle.getLong("AuId"));
-//                    }
-//                }
+//    public static void main(String[] args) {
+//        client = HttpClients.createDefault();
+////        String base = "Id,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
+////        JsonObject obj1 = getJson("Composite(AA.AuId=2239559232)", base);
+////        System.out.println(obj1.encode());
+////        JsonArray array = obj1.getJsonArray("entities");
+////////        System.out.println(array.encode());
+////        for (int i = 0; i < array.size(); i++) {
+////            JsonObject obj = array.getJsonObject(i);
+////            JsonArray aa = obj.getJsonArray("AA");
+////            if (aa!=null)
+////                for (int j = 0; j < aa.size(); j++) {
+////                    JsonObject aaSingle = aa.getJsonObject(j);
+////                    if (aaSingle!=null){
+////                        System.out.println(aaSingle.getLong("AuId"));
+////                    }
+////                }
+////        }
+//        //FileHelper.saveToFile(array, "src/main/resources/papers.txt");
+//        FileHelper.getExistedIdTable();
+//        List<Long> existed = FileHelper.auidTable;
+//        Long i = new Long(0);
+//        for (Long auid: existed) {
+//            spideFromAuId(auid);
+//            System.out.println(i+" yes+++++++++");
+//            i++;
 //        }
-        //FileHelper.saveToFile(array, "src/main/resources/papers.txt");
-        FileHelper.getExistedIdTable();
-        List<Long> existed = FileHelper.auidTable;
-        Long i = new Long(0);
-        for (Long auid: existed) {
-            spideFromAuId(auid);
-            System.out.println(i+" yes+++++++++");
-            i++;
-        }
-        //spideFromAuId(Long.parseLong("1591454549"));
-
-        try {
-            client.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//        //spideFromAuId(Long.parseLong("1591454549"));
+//
+//        try {
+//            client.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
