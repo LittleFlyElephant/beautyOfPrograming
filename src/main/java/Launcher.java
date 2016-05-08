@@ -19,8 +19,8 @@ public class Launcher extends AbstractVerticle {
                     MultiMap params = request.params();
                     String id1 = params.get("id1");
                     String id2 = params.get("id2");
-                    CalService calService = new CalImpl();
-                    request.response().end(calService.calculate(id1,id2));
+//                    CalService calService = new CalImpl();
+//                    request.response().end(calService.calculate(id1,id2));
                 })
                 .listen(8020);
     }

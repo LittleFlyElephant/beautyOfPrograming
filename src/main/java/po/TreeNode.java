@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class TreeNode {
 	public long n;
 	List<TreeNode> next;
+	public Entity itself;
 	public TreeNode(long n) {
 		this.n=n;
 	}

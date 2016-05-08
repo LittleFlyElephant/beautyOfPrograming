@@ -39,11 +39,7 @@ public class BuildMap {
 		TreeNode root=new TreeNode(n);
 		//first
 		root.addNode(getEqual(n));
-		//second
-		List<TreeNode> sec=root.getNext();
-		for (TreeNode treeNode : sec) {
-			treeNode.addNode(getEqual(treeNode.n));
-		}
+		
 		
 		return root;
 	}
