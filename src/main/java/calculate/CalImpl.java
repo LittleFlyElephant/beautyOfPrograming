@@ -17,7 +17,6 @@ public class CalImpl implements CalService {
     public String calculate(String id1, String id2) {
         BuildMap map = new BuildMap();
         int i = 0,j = 0,k = 0;
-        int num = 0;
         long startLong = Long.parseLong(id1);
         long endLong = Long.parseLong(id2);
 
@@ -79,6 +78,6 @@ public class CalImpl implements CalService {
                 }
             }
         }
-        return array.toString();
+        return array.encode();
     }
 }
