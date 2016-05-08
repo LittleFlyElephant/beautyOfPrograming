@@ -1,6 +1,8 @@
 package po;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
 * beautyOfPrograming/po/AuidNode.java
@@ -16,5 +18,17 @@ public class AuidNode {
 	public AuidNode(long auid,List<Entity> entities) {
 		this.auid=auid;
 		this.entities=entities;
+	}
+	public void buildSubID(Map<Long, Entity> src){
+		subID=src
+				.entrySet()
+				.stream()
+				.map(entry->new IdNode(entry.getKey(), entry.getValue()))
+				.collect(Collectors.toList()	);
+	}
+	public void buildSubAuid(Map<Long, List<Entity>> src){
+		subAuid=src.entrySet().stream()
+				.map(e->new AuidNode(e.getKey(), e.getValue()))
+				.collect(Collectors.toList());
 	}
 }
