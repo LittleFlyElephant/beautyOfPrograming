@@ -49,15 +49,19 @@ public class BuildMap {
 	
 	private Set<Long> getEqual(long n){
 		List<Entity> entities=service.getEntities(n, SearchType.ID);
+		if (entities.isEmpty()) {
+			entities=service.getEntities(n, SearchType.AUID);
+		}
 		//
 		Set<Long> set=new HashSet<>();
 		for(Entity entity: entities){
 			//cid
-			Set<Long> cids=getChild(entity.getCids(), SearchType.CID);
+			Set<Long> cids=service.getEntities(entity.getCid(), SearchType.CID).stream().map(e->e.getId()).collect(Collectors.toSet());
 			//fid
 			Set<Long> fids=getChild(entity.getFids(), SearchType.FID);
 			//jid
-			Set<Long> jids=getChild(entity.getJids(), SearchType.JID);
+			Set<Long> jids=service.getEntities(entity.getJid(), SearchType.JID).stream().map(e->e.getId()).collect(Collectors.toSet());
+			
 			//auid
 			Set<Long> auids=getChild(entity.getAuids(), SearchType.AUID);
 			//afid
