@@ -15,8 +15,9 @@ public class FileHelper {
 
     public static List<Long> idTable;
     public static List<Long> auidTable;
-    private static String idTablePath = "src/main/resources/papers_id.txt";
-    public static String auidTablePath = "src/main/resources/papers_auid.txt";
+    private static String idTablePath = "papers_id.txt";
+    public static String auidTablePath = "papers_auid.txt";
+    public static String papersPath = "papers.txt";
 
     public static void getExistedIdTable() {
         idTable = new LinkedList<>();
@@ -42,39 +43,33 @@ public class FileHelper {
         }
     }
 
-    public static void updateTables(List<Long> newIds, List<Long> newAuids) {
+    public static void updateTables(List<Long> newAuids) {
 
         try {
-            FileWriter ifw = new FileWriter(idTablePath);
-            BufferedWriter ibw = new BufferedWriter(ifw);
             FileWriter afw = new FileWriter(auidTablePath);
             BufferedWriter abw = new BufferedWriter(afw);
 
-            for (Long i : newIds) {
-                ibw.write(i.toString());
-                ibw.newLine();
-            }
             for (Long i : newAuids) {
                 abw.write(i.toString());
                 abw.newLine();
             }
 
-            ibw.flush();
             abw.flush();
-            ibw.close();
             abw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void saveToFile(JsonArray entities, String path) {
+    public static void saveToFile(JsonArray entities) {
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         //getExistedIdTable();
         try {
-            fileWriter = new FileWriter(path, true);
+            fileWriter = new FileWriter(papersPath, true);
             bufferedWriter = new BufferedWriter(fileWriter);
+            FileWriter ifw = new FileWriter(idTablePath, true);
+            BufferedWriter ibw = new BufferedWriter(ifw);
 
             for (int i = 0; i < entities.size(); i++) {
                 JsonObject obj = entities.getJsonObject(i);
@@ -82,11 +77,15 @@ public class FileHelper {
                 if (!idTable.contains(id)) {
                     idTable.add(id);
                     System.out.println(id);
+                    ibw.write(id.toString());
+                    ibw.newLine();
                     bufferedWriter.write(entities.getJsonObject(i).encode());
                     bufferedWriter.newLine();
                 }
             }
 
+            ibw.flush();
+            ibw.close();
             bufferedWriter.flush();
             bufferedWriter.close();
         } catch (IOException e) {
@@ -119,6 +118,7 @@ public class FileHelper {
         Long jid = null;
         List<Long> auids = new LinkedList<>();
         List<Long> afids = new LinkedList<>();
+        List<Long> rids = new LinkedList<>();
         JsonObject arrayObj = null;
         JsonArray aa = jsonObject.getJsonArray("AA");
         if (aa != null)
@@ -143,11 +143,17 @@ public class FileHelper {
                     if (fid!=null) fids.add(fid);
                 }
             }
+        JsonArray r = jsonObject.getJsonArray("RId");
+        if (r != null)
+            for (int i = 0; i < r.size(); i++) {
+                Long rid = r.getLong(i);
+                rids.add(rid);
+            }
         JsonObject j = jsonObject.getJsonObject("J");
         if (j != null)
             jid = j.getLong("JId");
 
-        Entity entity = new Entity(jsonObject.getLong("Id"),cid,fids,jid,auids,afids);
+        Entity entity = new Entity(jsonObject.getLong("Id"),cid,fids,jid,auids,afids,rids);
         return entity;
     }
 }

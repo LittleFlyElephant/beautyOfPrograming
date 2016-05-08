@@ -23,7 +23,8 @@ import java.util.List;
  */
 public class APIHelper {
 
-    private static CloseableHttpClient client;
+    public static CloseableHttpClient client;
+    public static String root = "";
 
     public static String getGithubAPI(String url){
         OkHttpClient client = new OkHttpClient();
@@ -75,19 +76,25 @@ public class APIHelper {
 
     public static void spideFromAuId(Long auid){
         //FileHelper.getExistedIdTable();
-        String base = "Id,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
+        String base = "Id,RId,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
         String expr_base = "Composite(AA.AuId=";
         List<Long> queue = new LinkedList<>();
         List<Long> existed = FileHelper.auidTable;
         queue.add(auid);
-        int head = 0; int rear = 0;
+        int head = 0; int rear = 0;long times = 1;
         while (head <= rear){
             Long toGet = queue.get(head);
             String expr = expr_base+toGet+")";
             JsonObject obj = getJson(expr, base);
+            System.out.println("get times:"+times);
+            times++;
+            if (obj == null) {
+                head++;
+                continue;
+            }
             JsonArray array = obj.getJsonArray("entities");
             if (array!=null){
-                FileHelper.saveToFile(array, "src/main/resources/papers.txt");
+                FileHelper.saveToFile(array);
                 for (int i = 0; i < array.size(); i++) {
                     JsonObject single = array.getJsonObject(i);
                     JsonArray aa = single.getJsonArray("AA");
@@ -105,7 +112,7 @@ public class APIHelper {
                         }
                     }
                 }
-                FileHelper.updateTables(FileHelper.idTable, existed);
+                FileHelper.updateTables(existed);
             }
             head++;
         }

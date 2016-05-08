@@ -12,14 +12,16 @@ public class Entity {
     private Long jid;
     private List<Long> auids;
     private List<Long> afids;
+    private List<Long> rids;
 
-    public Entity(Long id, Long cid, List<Long> fids, Long jid, List<Long> auids, List<Long> afids) {
+    public Entity(Long id, Long cid, List<Long> fids, Long jid, List<Long> auids, List<Long> afids, List<Long> rids) {
         this.id = id;
         this.cid = cid;
         this.fids = fids;
         this.jid = jid;
         this.auids = auids;
         this.afids = afids;
+        this.rids = rids;
     }
 
     public Entity() {
@@ -49,6 +51,10 @@ public class Entity {
         return afids;
     }
 
+    public List<Long> getRids() {
+        return rids;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -71,5 +77,9 @@ public class Entity {
 
     public void setAfids(List<Long> afids) {
         this.afids = afids;
+    }
+
+    public void setRids(List<Long> rids) {
+        this.rids = rids;
     }
 }

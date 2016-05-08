@@ -4,9 +4,11 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
+import org.apache.http.impl.client.HttpClients;
 import utility.APIHelper;
 import utility.FileHelper;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,15 +28,7 @@ public class Launcher extends AbstractVerticle {
 ////                    request.response().end(calService.calculate(id1,id2));
 //                })
 //                .listen(8020);
-        spider();
-    }
-
-    private void spider(){
-        FileHelper.getExistedIdTable();
-        List<Long> existed = FileHelper.auidTable;
-        for (Long auid: existed) {
-            APIHelper.spideFromAuId(auid);
-        }
+//        spider();
     }
 
 }
