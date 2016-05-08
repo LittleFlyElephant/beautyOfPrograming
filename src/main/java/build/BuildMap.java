@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 import dataservice.DataImpl;
 import dataservice.DataService;
+import po.AuidNode;
 import po.Entity;
+import po.IdNode;
 import po.TreeNode;
 import utility.FileHelper;
 import utility.SearchType;
@@ -18,34 +20,24 @@ import utility.SearchType;
 * 2016年5月7日 下午7:03:16
 */
 public class BuildMap {
-	private DataService service;
-	public BuildMap() {
-		service=new DataImpl(FileHelper.getFromFile("src/main/resources/papers.txt"));
-	}
-	/**
-	 * 
-	 * @param start
-	 * @param end
-	 * @return length=2
-	 */
-	public TreeNode[] get(long start,long end){
-		TreeNode[] ans=new TreeNode[2];
-		ans[0]=get(start);
-		ans[1]=get(end);
-		return ans;
-	}
-	//
-	private TreeNode get(long n){
-		TreeNode root=new TreeNode(n);
-		//first
-		root.addNode(getEqual(n));
+	
+	
+	public IdNode getIdTree(long id,Entity entity,DataService service) {
+		IdNode ans=new IdNode(id,entity);
+		//id to id
+		List<Entity> id2idcid=service.getEntities(entity.getCid(), SearchType.CID);
 		
+	}
+	
+	public AuidNode getAuidTree(long auid,List<Entity> entities,DataService service) {
 		
-		return root;
 	}
 	
 	private Set<Long> getEqual(long n){
 		List<Entity> entities=service.getEntities(n, SearchType.ID);
+		
+		IdNode idNode=getIdTree(n, entities.get(0), service);
+		
 		if (entities.isEmpty()) {
 			entities=service.getEntities(n, SearchType.AUID);
 		}
