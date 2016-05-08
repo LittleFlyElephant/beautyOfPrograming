@@ -14,8 +14,8 @@ public class MyVerticle extends AbstractVerticle {
 	public void start(){
 		HttpServer httpServer=vertx.createHttpServer();
 		Router router=Router.router(vertx);
-		router.route("/cal").handler(new Handler());
-		
+		router.route().blockingHandler(new Handler());
+//
 		
 		//
 		httpServer.requestHandler(router::accept).listen(8020);

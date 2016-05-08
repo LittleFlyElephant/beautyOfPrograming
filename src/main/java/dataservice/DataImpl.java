@@ -35,10 +35,10 @@ public class DataImpl implements DataService {
                     if (e.getFids().contains(id)) ret.add(e);
                     break;
                 case CID:
-                    if (e.getCid().equals(id)) ret.add(e);
+                    if (e.getCid()!=null && e.getCid().equals(id)) ret.add(e);
                     break;
                 case JID:
-                    if (e.getJid().equals(id)) ret.add(e);
+                    if (e.getJid()!=null && e.getJid().equals(id)) ret.add(e);
                     break;
                 case AFID:
                     if (e.getAfids().contains(id)) ret.add(e);
@@ -49,6 +49,22 @@ public class DataImpl implements DataService {
                 default:
                     break;
             }
+        }
+        if (ret.size() == 0) ret = getFromWeb(id, type);
+        return ret;
+    }
+
+    private List<Entity> getFromWeb(Long id, SearchType type) {
+        String base = "AA.AuId";
+        String expr_base = "Composite(" + type.toString() + "=" + id + ")";
+        if (type == SearchType.ID) expr_base = "Id=" + id;
+        List<Entity> ret = new LinkedList<>();
+        JsonObject obj = APIHelper.getJson(expr_base, base);
+        if (obj == null) return ret;
+        JsonArray array = obj.getJsonArray("entities");
+        for (int i = 0; i < array.size(); i++) {
+            JsonObject objs = array.getJsonObject(i);
+            ret.add(FileHelper.convertToEntity(objs));
         }
         return ret;
     }

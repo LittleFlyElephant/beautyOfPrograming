@@ -1,5 +1,7 @@
 package web;
 
+import calculate.CalImpl;
+import calculate.CalService;
 import io.vertx.core.MultiMap;
 import io.vertx.ext.web.RoutingContext;
 
@@ -14,9 +16,12 @@ public class Handler implements io.vertx.core.Handler<RoutingContext> {
 	public void handle(RoutingContext event) {
 		MultiMap map=event.request().params();
 		
-		long start=Long.parseLong(map.get("id1"));
-		long end=Long.parseLong(map.get("id2"));
-		//do 
+		String id1 = map.get("id1");
+		String id2 = map.get("id2");
+		System.out.println(id1+" "+id2);
+		//do
+		CalService calService = new CalImpl();
+		event.response().end(calService.calculate(id1,id2));
 		//
 	}
 

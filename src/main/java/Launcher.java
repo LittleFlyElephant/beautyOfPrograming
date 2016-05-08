@@ -1,3 +1,5 @@
+import calculate.CalImpl;
+import calculate.CalService;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -17,10 +19,10 @@ public class Launcher extends AbstractVerticle {
                     MultiMap params = request.params();
                     String id1 = params.get("id1");
                     String id2 = params.get("id2");
-
-                    request.response().end(APIHelper.getJson("Id=2140251882","Id,AA.AuId,AA.AfId").encode());
+                    CalService calService = new CalImpl();
+                    request.response().end(calService.calculate(id1,id2));
                 })
-                .listen(8080);
+                .listen(8020);
     }
 
 }

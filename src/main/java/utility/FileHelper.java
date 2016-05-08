@@ -113,7 +113,7 @@ public class FileHelper {
         return entities;
     }
 
-    private static Entity convertToEntity(JsonObject jsonObject) {
+    public static Entity convertToEntity(JsonObject jsonObject) {
         Long cid = null;
         List<Long> fids = new LinkedList<>();
         Long jid = null;

@@ -9,6 +9,7 @@ import dataservice.DataImpl;
 import dataservice.DataService;
 import po.Entity;
 import po.TreeNode;
+import utility.FileHelper;
 import utility.SearchType;
 
 /**
@@ -19,7 +20,7 @@ import utility.SearchType;
 public class BuildMap {
 	private DataService service;
 	public BuildMap() {
-		service=new DataImpl();
+		service=new DataImpl(FileHelper.getFromFile("src/main/resources/papers.txt"));
 	}
 	/**
 	 * 
