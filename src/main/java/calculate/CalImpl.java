@@ -174,6 +174,7 @@ public class CalImpl implements CalService {
             ridSize = rid1.size();
             for (j = 0;j < subID2_len;j++){
                 long sub2ID = subID2.get(j).id;
+                if (sub2ID == id1) continue;
                 fids2 = subID2.get(j).entity.getFids();
                 cid2 = subID2.get(j).entity.getCid();
                 jid2 = subID2.get(j).entity.getJid();
@@ -191,6 +192,7 @@ public class CalImpl implements CalService {
                     if (findFile) break;
                 }
                 for (k = 0;k < ridSize;k++){
+                    if (sub2ID == id1) continue;
                     if (rid1.get(k) == sub2ID){
                         findRid = true;
                         break;
