@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 */
 
 public class IdNode {
-	public long id;
+	public Long id;
 	public List<IdNode> subID;
 	public List<AuidNode> subAuid;
 	public Entity entity;

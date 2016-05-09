@@ -24,10 +24,14 @@ public class CalImpl implements CalService {
     @Override
     public String calculate(String start, String end) {
         BuildMap map = new BuildMap();
-        DataService service = new DataImpl(FileHelper.getFromFile("src/main/resources/papers.txt"));
+//        DataService service = new DataImpl(FileHelper.getFromFile("src/main/resources/papers.txt"));
+        DataService service = new DataImpl();
         int i = 0,j = 0,k = 0;
         Long id1 = Long.parseLong(start);
         Long id2 = Long.parseLong(end);
+
+        System.out.println("start " + start);
+
         boolean id1isid = false;
         boolean id2isid = false;
         IdNode id1node = null,id2node = null;
@@ -35,7 +39,7 @@ public class CalImpl implements CalService {
         JsonArray array = new JsonArray();
         //
         List<Entity> entitie1=service.getEntities(id1, SearchType.ID);
-        if (entitie1.isEmpty()){
+        if (entitie1.size()==1 && entitie1.get(0).getAuids().size() == 0){
             entitie1=service.getEntities(id1,SearchType.AUID);
             id1isid=false;
             auid1node=map.getAuidTree(id1,entitie1,service);
@@ -46,7 +50,7 @@ public class CalImpl implements CalService {
         }
         //
         List<Entity> entitie2=service.getEntities(id2, SearchType.ID);
-        if (entitie2.isEmpty()){
+        if (entitie2.size()==1 && entitie2.get(0).getAuids().size() == 0){
             entitie2=service.getEntities(id2,SearchType.AUID);
             id2isid=false;
             auid2node=map.getAuidTree(id2,entitie2,service);
@@ -56,6 +60,7 @@ public class CalImpl implements CalService {
             id2node=map.getIdTree(id2,entitie2.get(0),service);
         }
 
+//        System.out.println("finish build");
 
         //1-hop
         if (id2isid){
@@ -65,11 +70,15 @@ public class CalImpl implements CalService {
             int subID1Len = subID1.size();
 
             for (i = 0;i < subID1Len;i++){
-                if (id2 == subID1.get(i).id){
+//                System.out.println("id     " + subID1.get(i).id);
+                if (id2.equals(subID1.get(i).id)){
                     JsonArray tempArray = new JsonArray();
                     tempArray.add(id1);
                     tempArray.add(id2);
                     array.add(tempArray);
+
+//                    System.out.println("add1-1");
+
                     break;
                 }
             }
@@ -80,11 +89,15 @@ public class CalImpl implements CalService {
             int subAuid1Len = subAuid1.size();
 
             for (i = 0;i < subAuid1Len;i++){
-                if (id2 == subAuid1.get(i).auid){
+//                System.out.println("auid     " + subAuid1.get(i).auid);
+                if (id2.equals(subAuid1.get(i).auid)){
                     JsonArray tempArray = new JsonArray();
                     tempArray.add(id1);
                     tempArray.add(id2);
                     array.add(tempArray);
+
+//                    System.out.println("add1-2");
+
                     break;
                 }
             }
@@ -127,12 +140,15 @@ public class CalImpl implements CalService {
         for (i = 0;i < subID1_len;i++){
             Long subTemp = subID1.get(i).id;
             for (j = 0;j < subID2_len;j++){
-                if(subTemp == subID2.get(j).id){
+                if(subTemp.equals(subID2.get(j).id)){
                     JsonArray tempArray = new JsonArray();
                     tempArray.add(id1);
                     tempArray.add(subTemp);
                     tempArray.add(id2);
                     array.add(tempArray);
+
+//                    System.out.println("add2-1");
+
                     break;
                 }
             }
@@ -140,12 +156,16 @@ public class CalImpl implements CalService {
         for (i = 0;i < subAuid1_len;i++){
             Long subTemp = subAuid1.get(i).auid;
             for (j = 0;j < subAuid2_len;j++){
-                if (subTemp == subAuid2.get(j).auid){
+                if (subTemp.equals(subAuid2.get(j).auid)){
                     JsonArray tempArray = new JsonArray();
                     tempArray.add(id1);
                     tempArray.add(subTemp);
                     tempArray.add(id2);
                     array.add(tempArray);
+//                    System.out.println(tempArray);
+
+//                    System.out.println("add2-2");
+
                     break;
                 }
             }
@@ -167,8 +187,6 @@ public class CalImpl implements CalService {
         for (i = 0;i < subID1_len;i++){
             Long sub1ID = subID1.get(i).id;
             fids1 = subID1.get(i).entity.getFids();
-            System.out.println(subID1.get(i).entity==null);
-            System.out.println("i:"+i);
             cid1 = subID1
                     .get(i)
                     .entity
@@ -183,7 +201,8 @@ public class CalImpl implements CalService {
 
             for (j = 0;j < subID2_len;j++){
                 Long sub2ID = subID2.get(j).id;
-                if (sub2ID == id1) continue;
+                if (sub2ID.equals(id1)) continue;
+                if (sub1ID.equals(id2)) continue;
                 fids2 = subID2.get(j).entity.getFids();
                 cid2 = subID2.get(j).entity.getCid();
                 jid2 = subID2.get(j).entity.getJid();
@@ -193,7 +212,7 @@ public class CalImpl implements CalService {
                 for (k = 0;k < f1size;k++){
                     Long tempFile = fids1.get(k);
                     for (int r = 0;r < f2size;r++){
-                        if (tempFile == fids2.get(r)){
+                        if (tempFile.equals(fids2.get(r))){
                             findFile = true;
                             break;
                         }
@@ -201,8 +220,9 @@ public class CalImpl implements CalService {
                     if (findFile) break;
                 }
                 for (k = 0;k < ridSize;k++){
-                    if (sub2ID == id1) continue;
-                    if (rid1.get(k) == sub2ID){
+                    if (sub2ID.equals(id1)) continue;
+                    if (sub1ID.equals(id2)) continue;
+                    if (rid1.get(k).equals(sub2ID)){
                         findRid = true;
                         break;
                     }
@@ -211,16 +231,19 @@ public class CalImpl implements CalService {
                 boolean findCID = false;
                 boolean findJID = false;
 
-                if ((cid1 != null)&&(cid2 != null)&&(cid1 == cid2)) findCID = true;
-                if ((jid1 != null)&&(jid2 != null)&&(jid1 == jid2)) findJID = true;
+                if ((cid1 != null)&&(cid2 != null)&&(cid1.equals(cid2))) findCID = true;
+                if ((jid1 != null)&&(jid2 != null)&&(jid1.equals(jid2))) findJID = true;
 
                 if (findRid || findFile || findCID || findJID){
-                    JsonArray tempArray = new JsonArray();
-                    tempArray.add(id1);
-                    tempArray.add(sub1ID);
-                    tempArray.add(sub2ID);
-                    tempArray.add(id2);
-                    array.add(tempArray);
+                    if (!sub2ID.equals(id1) && !sub1ID.equals(id2)) {
+                        JsonArray tempArray = new JsonArray();
+//                        System.out.println("test:"+id1+" "+sub1ID+" "+sub2ID+" "+id2);
+                        tempArray.add(id1);
+                        tempArray.add(sub1ID);
+                        tempArray.add(sub2ID);
+                        tempArray.add(id2);
+                        array.add(tempArray);
+                    }
                 }
                 findFile = false;
                 findRid = false;
@@ -237,14 +260,16 @@ public class CalImpl implements CalService {
                 if (authEntity2 != null){authEntity2.size();}
 
                 for (k = 0;k < entitySize;k++){
-                    if (sub1ID == authEntity2.get(k).getId()){
-                        JsonArray tempArray = new JsonArray();
-                        tempArray.add(id1);
-                        tempArray.add(sub1ID);
-                        tempArray.add(sub2ID);
-                        tempArray.add(id2);
-                        array.add(tempArray);
-                        break;
+                    if (sub1ID.equals(authEntity2.get(k).getId())){
+                        if (!sub2ID.equals(id1) && !sub1ID.equals(id2)) {
+                            JsonArray tempArray = new JsonArray();
+                            tempArray.add(id1);
+                            tempArray.add(sub1ID);
+                            tempArray.add(sub2ID);
+                            tempArray.add(id2);
+                            array.add(tempArray);
+                            break;
+                        }
                     }
                 }
             }
@@ -261,15 +286,17 @@ public class CalImpl implements CalService {
             for (j = 0;j < authEntity1Size;j++){
                 Long entityID = authEntity1.get(j).getId();
                 for (k = 0;k < subID2_len;k++){
-                    if (entityID == subID2.get(k).id){
-                        JsonArray tempArray = new JsonArray();
-                        tempArray.add(id1);
-                        tempArray.add(sub1ID);
-                        tempArray.add(subID2.get(k).id);
-                        tempArray.add(id2);
-                        array.add(tempArray);
-                        findEntity = true;
-                        break;
+                    if (entityID.equals(subID2.get(k).id)){
+                        if (!subID2.get(k).id.equals(id1) && !sub1ID.equals(id2)) {
+                            JsonArray tempArray = new JsonArray();
+                            tempArray.add(id1);
+                            tempArray.add(sub1ID);
+                            tempArray.add(subID2.get(k).id);
+                            tempArray.add(id2);
+                            array.add(tempArray);
+                            findEntity = true;
+                            break;
+                        }
                     }
                 }
                 if (findEntity) break;
@@ -305,15 +332,17 @@ public class CalImpl implements CalService {
                         for (int l = 0;l < f1size;l++){
                             Long f1IDnow = fID1.get(l);
                             for (int m = 0;m < f2Size;m++){
-                                if(f1IDnow == fID2.get(m)){
-                                    JsonArray tempArray = new JsonArray();
-                                    tempArray.add(id1);
-                                    tempArray.add(sub1ID);
-                                    tempArray.add(subID2);
-                                    tempArray.add(id2);
-                                    array.add(tempArray);
-                                    findAuth = true;
-                                    break;
+                                if(f1IDnow.equals(fID2.get(m))){
+                                    if (!sub2ID.equals(id1) && !sub1ID.equals(id2)) {
+                                        JsonArray tempArray = new JsonArray();
+                                        tempArray.add(id1);
+                                        tempArray.add(sub1ID);
+                                        tempArray.add(sub2ID);
+                                        tempArray.add(id2);
+                                        array.add(tempArray);
+                                        findAuth = true;
+                                        break;
+                                    }
                                 }
                             }
                             if (findAuth) break;
@@ -324,6 +353,7 @@ public class CalImpl implements CalService {
                 }
             }
         }
+//        System.out.println(array.size());
         return array.encode();
     }
 }

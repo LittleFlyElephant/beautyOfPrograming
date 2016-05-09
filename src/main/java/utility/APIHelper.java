@@ -15,6 +15,8 @@ import po.Entity;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,9 +122,26 @@ public class APIHelper {
     }
 
     public static void main(String[] args) {
-//        String connectionUrl = "jdbc:sqlserver://zz1tqcs98b.database.chinacloudapi.cn:1433;database=njuccc;user=njuuser@zz1tqcs98b;password={此处为你的密码};encrypt=true;hostNameInCertificate=*.database.chinacloudapi.cn;loginTimeout=30;"
-        Entity t = new Entity();
-        System.out.println(t.getCid());
+
+//        try {
+//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//            String connectionUrl = "jdbc:sqlserver://zz1tqcs98b.database.chinacloudapi.cn:1433;" +
+//                    "database=njuccc;" +
+//                    "user=njuuser@zz1tqcs98b;" +
+//                    "password=nju@ccc123;" +
+//                    "encrypt=true;" +
+//                    "hostNameInCertificate=*.database.chinacloudapi.cn;" +
+//                    "loginTimeout=3000;";
+//            Connection con = DriverManager.getConnection(connectionUrl);
+//            System.out.println("connected!");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Entity t = new Entity();
+//        System.out.println(t.getCid());
+        Long a1 = new Long(1);
+        Long a2 = new Long(1);
+        System.out.println(a1==a2);
     }
 
 //    public static void main(String[] args) {

@@ -18,10 +18,10 @@ import java.util.List;
  */
 public class DataImpl implements DataService {
 
-    private List<Entity> allEntities;
+    public static List<Entity> allEntities = FileHelper.getFromFile("papers.txt");
 
-    public DataImpl(List<Entity> allEntities) {
-        this.allEntities = allEntities;
+    public DataImpl() {
+
     }
 
     //opt
