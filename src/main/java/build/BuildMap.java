@@ -68,13 +68,13 @@ public class BuildMap {
 		if (src==null) {
 			return new HashMap<>();
 		}
-		Map<Long, Entity> ans=src.stream()
+		Set<Entity> s=src.stream()
 				.flatMap(
 						l->
 						service.getEntities(l, searchType)
 						.stream())
-				.collect(Collectors.toMap(Entity::getId, e->e));
-		return ans;
+				.collect(Collectors.toSet());
+		return s.stream().collect(Collectors.toMap(Entity::getId, e->e));
 	}
 	private Map<Long, List<Entity>> getAuid(List<Long> src,SearchType searchType,DataService service){
 		if (src==null) {

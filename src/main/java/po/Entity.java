@@ -83,4 +83,17 @@ public class Entity {
     public void setRids(List<Long> rids) {
         this.rids = rids;
     }
+    
+    @Override
+    public int hashCode(){
+    	return new Long(id).intValue();
+    	
+    }
+    @Override
+    public boolean equals(Object obj){
+    	if (!(obj instanceof Entity)) {
+			return false;
+		}
+    	return ((Entity)obj).id==this.id;
+    }
 }
