@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import po.Entity;
 
 import java.io.IOException;
 import java.net.URI;
@@ -118,6 +119,12 @@ public class APIHelper {
         }
     }
 
+    public static void main(String[] args) {
+//        String connectionUrl = "jdbc:sqlserver://zz1tqcs98b.database.chinacloudapi.cn:1433;database=njuccc;user=njuuser@zz1tqcs98b;password={此处为你的密码};encrypt=true;hostNameInCertificate=*.database.chinacloudapi.cn;loginTimeout=30;"
+        Entity t = new Entity();
+        System.out.println(t.getCid());
+    }
+
 //    public static void main(String[] args) {
 //        client = HttpClients.createDefault();
 ////        String base = "Id,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
@@ -153,4 +160,5 @@ public class APIHelper {
 //            e.printStackTrace();
 //        }
 //    }
+
 }

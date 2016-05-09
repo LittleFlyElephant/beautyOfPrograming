@@ -15,7 +15,7 @@ public enum SearchType {
             case FID: return "F.FId";
             case JID: return "J.JId";
             case CID: return "C.CId";
-            case RID: return "Rid";
+            case RID: return "RId";
             default: return null;
         }
     }

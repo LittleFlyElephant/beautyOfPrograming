@@ -15,6 +15,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		VertxOptions options=new VertxOptions();
+		options.setBlockedThreadCheckInterval(300000);
 		VertxFactory factory=new VertxFactoryImpl();
 		Vertx vertx=factory.vertx(options);
 		DeploymentOptions deploymentOptions=new DeploymentOptions();
