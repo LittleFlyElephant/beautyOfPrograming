@@ -167,7 +167,7 @@ public class CalImpl implements CalService {
         for (i = 0;i < subID1_len;i++){
             long sub1ID = subID1.get(i).id;
             fids1 = subID1.get(i).entity.getFids();
-            System.out.println("subid1:"+subID1.get(i)==null);
+            System.out.println(subID1.get(i).entity==null);
             System.out.println("i:"+i);
             cid1 = subID1
                     .get(i)
