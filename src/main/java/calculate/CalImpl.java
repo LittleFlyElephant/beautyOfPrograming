@@ -153,12 +153,16 @@ public class CalImpl implements CalService {
         //3-hop
         List<Long> fids1;
         List<Long> fids2;
+        List<Long> rid1;
+//        List<Long> rid2;
         long cid1;
         long cid2;
         long jid1;
         long jid2;
         boolean findFile = false;
+        boolean findRid = false;
         int f1size = 0,f2size = 0;
+        int ridSize = 0;
         //subid1 and subid2
         for (i = 0;i < subID1_len;i++){
             long sub1ID = subID1.get(i).id;
@@ -166,13 +170,15 @@ public class CalImpl implements CalService {
             cid1 = subID1.get(i).entity.getCid();
             jid1 = subID1.get(i).entity.getJid();
             f1size = fids1.size();
+            rid1 = subID1.get(i).entity.getRids();
+            ridSize = rid1.size();
             for (j = 0;j < subID2_len;j++){
-                //没有rid
                 long sub2ID = subID2.get(j).id;
                 fids2 = subID2.get(j).entity.getFids();
                 cid2 = subID2.get(j).entity.getCid();
                 jid2 = subID2.get(j).entity.getJid();
                 f2size = fids2.size();
+//                rid2 = subID2.get(j).entity.getRids();
 
                 for (k = 0;k < f1size;k++){
                     Long tempFile = fids1.get(k);
@@ -184,7 +190,14 @@ public class CalImpl implements CalService {
                     }
                     if (findFile) break;
                 }
-                if (findFile || (cid1 == cid2) || (jid1 == jid2)){
+                for (k = 0;k < ridSize;k++){
+                    if (rid1.get(k) == sub2ID){
+                        findRid = true;
+                        break;
+                    }
+                }
+
+                if (findRid || findFile || (cid1 == cid2) || (jid1 == jid2)){
                     JsonArray tempArray = new JsonArray();
                     tempArray.add(id1);
                     tempArray.add(sub1ID);
@@ -193,6 +206,7 @@ public class CalImpl implements CalService {
                     array.add(tempArray);
                 }
                 findFile = false;
+                findRid = false;
             }
         }
         //subid1 and subAuid2
