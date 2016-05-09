@@ -4,7 +4,7 @@ package utility;
  * Created by raychen on 16/5/7.
  */
 public enum SearchType {
-    ID,AUID,AFID,FID,JID,CID;
+    ID,AUID,AFID,FID,JID,CID,RID;
 
     @Override
     public String toString() {
@@ -15,6 +15,7 @@ public enum SearchType {
             case FID: return "F.FId";
             case JID: return "J.JId";
             case CID: return "C.CId";
+            case RID: return "Rid";
             default: return null;
         }
     }

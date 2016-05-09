@@ -26,15 +26,17 @@ public class BuildMap {
 	public IdNode getIdTree(long id,Entity entity,DataService service) {
 		IdNode ans=new IdNode(id,entity);
 		//id to id
+		Map<Long , Entity> id2idrid=getChild(entity.getRids(), SearchType.RID, service);
 		Map<Long, Entity> id2idcid=getChild(entity.getCid(), SearchType.CID, service);
 		Map<Long, Entity> id2idfid=getChild(entity.getFids(), SearchType.FID, service);
 		Map<Long, Entity> id2idjid=getChild(entity.getJid(), SearchType.JID, service);
 		//id to auid
 		Map<Long, List<Entity>> id2auidauid=getAuid(entity.getAuids(), SearchType.AUID, service);
-		Map<Long, Entity> map=new HashMap<>(id2idcid.size()+id2idfid.size()+id2idjid.size());
+		Map<Long, Entity> map=new HashMap<>(id2idcid.size()+id2idfid.size()+id2idjid.size()+id2idrid.size());
 		map.putAll(id2idjid);
 		map.putAll(id2idfid);
 		map.putAll(id2idcid);
+		map.putAll(id2idrid);
 		ans.buildSubID(map);
 		ans.buildSubAuid(id2auidauid);
 		return ans;
