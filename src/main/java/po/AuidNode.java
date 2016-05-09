@@ -23,6 +23,7 @@ public class AuidNode {
 		subID=src
 				.entrySet()
 				.stream()
+				.filter(e->e.getValue()!=null)
 				.map(entry->new IdNode(entry.getKey(), entry.getValue()))
 				.collect(Collectors.toList()	);
 	}
