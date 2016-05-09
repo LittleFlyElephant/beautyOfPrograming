@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class AuidNode {
 	public long auid;
-	List<IdNode> subID;
-	List<AuidNode> subAuid;
+	public List<IdNode> subID;
+	public List<AuidNode> subAuid;
 	public List<Entity> entities;
 	public AuidNode(long auid,List<Entity> entities) {
 		this.auid=auid;

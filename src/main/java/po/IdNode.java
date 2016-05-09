@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class IdNode {
 	public long id;
-	List<IdNode> subID;
-	List<AuidNode> subAuid;
+	public List<IdNode> subID;
+	public List<AuidNode> subAuid;
 	public Entity entity;
 	public IdNode(long id,Entity entity) {
 		this.id=id;
