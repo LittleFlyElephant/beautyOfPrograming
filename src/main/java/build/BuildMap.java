@@ -80,9 +80,9 @@ public class BuildMap {
 		if (src==null) {
 			return new HashMap<>();
 		}
-		return src.stream()
-				.map(l->service.getEntities(l, searchType))
-				.collect(Collectors.toMap((List<Entity> le)->le.get(0).getId(), le->le));
+		Set<Long> set=src.stream().collect(Collectors.toSet());
+		return set.stream()
+				.collect(Collectors.toMap(l->l, id->service.getEntities(id, searchType)));
 	}
 	
 }
