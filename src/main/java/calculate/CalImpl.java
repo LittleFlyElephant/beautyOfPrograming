@@ -26,8 +26,8 @@ public class CalImpl implements CalService {
         BuildMap map = new BuildMap();
         DataService service = new DataImpl(FileHelper.getFromFile("src/main/resources/papers.txt"));
         int i = 0,j = 0,k = 0;
-        long id1 = Long.parseLong(start);
-        long id2 = Long.parseLong(end);
+        Long id1 = Long.parseLong(start);
+        Long id2 = Long.parseLong(end);
         boolean id1isid = false;
         boolean id2isid = false;
         IdNode id1node = null,id2node = null;
@@ -125,7 +125,7 @@ public class CalImpl implements CalService {
         subAuid2_len = subAuid2.size();
 
         for (i = 0;i < subID1_len;i++){
-            long subTemp = subID1.get(i).id;
+            Long subTemp = subID1.get(i).id;
             for (j = 0;j < subID2_len;j++){
                 if(subTemp == subID2.get(j).id){
                     JsonArray tempArray = new JsonArray();
@@ -138,7 +138,7 @@ public class CalImpl implements CalService {
             }
         }
         for (i = 0;i < subAuid1_len;i++){
-            long subTemp = subAuid1.get(i).auid;
+            Long subTemp = subAuid1.get(i).auid;
             for (j = 0;j < subAuid2_len;j++){
                 if (subTemp == subAuid2.get(j).auid){
                     JsonArray tempArray = new JsonArray();
@@ -155,17 +155,17 @@ public class CalImpl implements CalService {
         List<Long> fids2;
         List<Long> rid1;
 //        List<Long> rid2;
-        long cid1;
-        long cid2;
-        long jid1;
-        long jid2;
+        Long cid1;
+        Long cid2;
+        Long jid1;
+        Long jid2;
         boolean findFile = false;
         boolean findRid = false;
         int f1size = 0,f2size = 0;
         int ridSize = 0;
         //subid1 and subid2
         for (i = 0;i < subID1_len;i++){
-            long sub1ID = subID1.get(i).id;
+            Long sub1ID = subID1.get(i).id;
             fids1 = subID1.get(i).entity.getFids();
             System.out.println(subID1.get(i).entity==null);
             System.out.println("i:"+i);
@@ -174,16 +174,20 @@ public class CalImpl implements CalService {
                     .entity
                     .getCid();
             jid1 = subID1.get(i).entity.getJid();
-            f1size = fids1.size();
+            if (fids1 != null){
+                f1size = fids1.size();
+            }
             rid1 = subID1.get(i).entity.getRids();
-            ridSize = rid1.size();
+
+            if (rid1 != null){ridSize = rid1.size();}
+
             for (j = 0;j < subID2_len;j++){
-                long sub2ID = subID2.get(j).id;
+                Long sub2ID = subID2.get(j).id;
                 if (sub2ID == id1) continue;
                 fids2 = subID2.get(j).entity.getFids();
                 cid2 = subID2.get(j).entity.getCid();
                 jid2 = subID2.get(j).entity.getJid();
-                f2size = fids2.size();
+                if (fids2 != null){f2size = fids2.size();}
 //                rid2 = subID2.get(j).entity.getRids();
 
                 for (k = 0;k < f1size;k++){
@@ -204,7 +208,13 @@ public class CalImpl implements CalService {
                     }
                 }
 
-                if (findRid || findFile || (cid1 == cid2) || (jid1 == jid2)){
+                boolean findCID = false;
+                boolean findJID = false;
+
+                if ((cid1 != null)&&(cid2 != null)&&(cid1 == cid2)) findCID = true;
+                if ((jid1 != null)&&(jid2 != null)&&(jid1 == jid2)) findJID = true;
+
+                if (findRid || findFile || findCID || findJID){
                     JsonArray tempArray = new JsonArray();
                     tempArray.add(id1);
                     tempArray.add(sub1ID);
@@ -219,11 +229,13 @@ public class CalImpl implements CalService {
         //subid1 and subAuid2
         List<Entity> authEntity2;
         for (i = 0;i < subID1_len;i++){
-            long sub1ID = subID1.get(i).id;
+            Long sub1ID = subID1.get(i).id;
             for (j = 0;j < subAuid2_len;j++){
-                long sub2ID = subAuid2.get(j).auid;
+                Long sub2ID = subAuid2.get(j).auid;
                 authEntity2 = subAuid2.get(j).entities;
-                int entitySize = authEntity2.size();
+                int entitySize = 0;
+                if (authEntity2 != null){authEntity2.size();}
+
                 for (k = 0;k < entitySize;k++){
                     if (sub1ID == authEntity2.get(k).getId()){
                         JsonArray tempArray = new JsonArray();
@@ -239,14 +251,15 @@ public class CalImpl implements CalService {
         }
         //subAuid1 and subId2
         List<Entity> authEntity1;
-        int authEntity1Size;
+        int authEntity1Size = 0;
         boolean findEntity = false;
         for (i = 0;i < subAuid1_len;i++){
-            long sub1ID = subAuid1.get(i).auid;
+            Long sub1ID = subAuid1.get(i).auid;
             authEntity1 = subAuid1.get(i).entities;
-            authEntity1Size = authEntity1.size();
+            if (authEntity1 != null){authEntity1Size = authEntity1.size();}
+
             for (j = 0;j < authEntity1Size;j++){
-                long entityID = authEntity1.get(j).getId();
+                Long entityID = authEntity1.get(j).getId();
                 for (k = 0;k < subID2_len;k++){
                     if (entityID == subID2.get(k).id){
                         JsonArray tempArray = new JsonArray();
@@ -269,23 +282,28 @@ public class CalImpl implements CalService {
         List<Long> fID2;
         boolean findAuth = false;
         for (i = 0;i < subAuid1_len;i++){
-            long sub1ID = subAuid1.get(i).auid;
+            Long sub1ID = subAuid1.get(i).auid;
             authEntity1 = subAuid1.get(i).entities;
-            int authE1Size = authEntity1.size();
+            int authE1Size = 0;
+            if (authEntity1 != null){authEntity1.size();}
+
             for (j = 0;j < authE1Size;j++){
                 Entity e1 = authEntity1.get(j);
                 fID1 = e1.getFids();
-                int f1Size = fID1.size();
+                int f1Size = 0;
+                if (fID1 != null){fID1.size();}
                 for (k = 0;k < subAuid2_len;k++){
-                    long sub2ID = subAuid2.get(k).auid;
+                    Long sub2ID = subAuid2.get(k).auid;
                     authEntity2 = subAuid2.get(k).entities;
-                    int authE2Size = authEntity2.size();
+                    int authE2Size = 0;
+                    if (authEntity2 != null){authEntity2.size();}
                     for (int r = 0;r < authE2Size;r++){
                         Entity e2 = authEntity2.get(r);
                         fID2 = e2.getFids();
-                        int f2Size = fID2.size();
+                        int f2Size = 0;
+                        if (fID2 != null ){fID2.size();}
                         for (int l = 0;l < f1size;l++){
-                            long f1IDnow = fID1.get(l);
+                            Long f1IDnow = fID1.get(l);
                             for (int m = 0;m < f2Size;m++){
                                 if(f1IDnow == fID2.get(m)){
                                     JsonArray tempArray = new JsonArray();
