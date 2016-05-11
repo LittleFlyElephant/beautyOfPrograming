@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class DataImpl implements DataService {
 
-    public static List<Entity> allEntities = FileHelper.getFromFile("papers.txt");
+    //public static List<Entity> allEntities = FileHelper.getFromFile("papers.txt");
 
     public DataImpl() {
 
@@ -28,36 +28,38 @@ public class DataImpl implements DataService {
     @Override
     public List<Entity> getEntities(Long id, SearchType type) {
         List<Entity> ret = new LinkedList<>();
-        for (Entity e : allEntities) {
-            switch (type) {
-                case ID:
-                    if (e.getId().equals(id)) ret.add(e);
-                    break;
-                case FID:
-                    if (e.getFids().contains(id)) ret.add(e);
-                    break;
-                case CID:
-                    if (e.getCid()!=null && e.getCid().equals(id)) ret.add(e);
-                    break;
-                case JID:
-                    if (e.getJid()!=null && e.getJid().equals(id)) ret.add(e);
-                    break;
-                case AFID:
-                    if (e.getAfids().contains(id)) ret.add(e);
-                    break;
-                case AUID:
-                    if (e.getAuids().contains(id)) ret.add(e);
-                    break;
-                default:
-                    break;
-            }
-        }
-        if (ret.size() == 0) ret = getFromWeb(id, type);
-        System.out.println("id"+id+" "+type.toString()+" "+"size:"+ret.size());
+//        for (Entity e : allEntities) {
+//            switch (type) {
+//                case ID:
+//                    if (e.getId().equals(id)) ret.add(e);
+//                    break;
+//                case FID:
+//                    if (e.getFids().contains(id)) ret.add(e);
+//                    break;
+//                case CID:
+//                    if (e.getCid()!=null && e.getCid().equals(id)) ret.add(e);
+//                    break;
+//                case JID:
+//                    if (e.getJid()!=null && e.getJid().equals(id)) ret.add(e);
+//                    break;
+//                case AFID:
+//                    if (e.getAfids().contains(id)) ret.add(e);
+//                    break;
+//                case AUID:
+//                    if (e.getAuids().contains(id)) ret.add(e);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//        if (ret.size() == 0)
+        ret = getFromWeb(id, type);
+        System.out.println("id: "+id+" "+type.toString()+" "+"size:"+ret.size());
         return ret;
     }
 
     public static List<Entity> getFromWeb(Long id, SearchType type) {
+//        System.out.println("from web: "+id+" "+type.toString());
         String base = "Id,RId,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
         String expr_base = "Composite(" + type.toString() + "=" + id + ")";
         APIHelper.client = HttpClients.createDefault();

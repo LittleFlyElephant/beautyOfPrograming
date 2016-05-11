@@ -39,7 +39,7 @@ public class CalImpl implements CalService {
         JsonArray array = new JsonArray();
         //
         List<Entity> entitie1=service.getEntities(id1, SearchType.ID);
-        if (entitie1.size()==1 && entitie1.get(0).getAuids().size() == 0){
+        if (entitie1.size()==0){// || (entitie1.size()==1 && entitie1.get(0).getAuids().size() == 0)){
             entitie1=service.getEntities(id1,SearchType.AUID);
             id1isid=false;
             auid1node=map.getAuidTree(id1,entitie1,service);
@@ -50,7 +50,7 @@ public class CalImpl implements CalService {
         }
         //
         List<Entity> entitie2=service.getEntities(id2, SearchType.ID);
-        if (entitie2.size()==1 && entitie2.get(0).getAuids().size() == 0){
+        if (entitie2.size()==0){// || (entitie2.size()==1 && entitie2.get(0).getAuids().size() == 0)){
             entitie2=service.getEntities(id2,SearchType.AUID);
             id2isid=false;
             auid2node=map.getAuidTree(id2,entitie2,service);

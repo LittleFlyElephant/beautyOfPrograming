@@ -2,6 +2,7 @@ package utility;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import po.AA;
 import po.Entity;
 
 import java.io.*;
@@ -116,8 +117,7 @@ public class FileHelper {
         Long cid = null;
         List<Long> fids = new LinkedList<>();
         Long jid = null;
-        List<Long> auids = new LinkedList<>();
-        List<Long> afids = new LinkedList<>();
+        List<AA> aas = new LinkedList<>();
         List<Long> rids = new LinkedList<>();
         JsonObject arrayObj = null;
         JsonArray aa = jsonObject.getJsonArray("AA");
@@ -127,8 +127,7 @@ public class FileHelper {
                 if (arrayObj!=null){
                     Long auid = arrayObj.getLong("AuId");
                     Long afid = arrayObj.getLong("AfId");
-                    if (auid!=null) auids.add(auid);
-                    if (afid!=null) afids.add(afid);
+                    if (auid!=null) aas.add(new AA(auid, afid));
                 }
             }
         JsonObject c = jsonObject.getJsonObject("C");
@@ -153,7 +152,7 @@ public class FileHelper {
         if (j != null)
             jid = j.getLong("JId");
 
-        Entity entity = new Entity(jsonObject.getLong("Id"),cid,fids,jid,auids,afids,rids);
+        Entity entity = new Entity(jsonObject.getLong("Id"),cid,fids,jid,aas,rids);
         return entity;
     }
 }

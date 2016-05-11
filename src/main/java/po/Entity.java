@@ -11,17 +11,15 @@ public class Entity {
     private Long cid;
     private List<Long> fids;
     private Long jid;
-    private List<Long> auids;
-    private List<Long> afids;
+    private List<AA> aas;
     private List<Long> rids;
 
-    public Entity(Long id, Long cid, List<Long> fids, Long jid, List<Long> auids, List<Long> afids, List<Long> rids) {
+    public Entity(Long id, Long cid, List<Long> fids, Long jid, List<AA> aas, List<Long> rids) {
         this.id = id;
         this.cid = cid;
         this.fids = fids;
         this.jid = jid;
-        this.auids = auids;
-        this.afids = afids;
+        this.aas = aas;
         this.rids = rids;
     }
 
@@ -44,12 +42,8 @@ public class Entity {
         return jid;
     }
 
-    public List<Long> getAuids() {
-        return auids;
-    }
-
-    public List<Long> getAfids() {
-        return afids;
+    public List<AA> getAas() {
+        return aas;
     }
 
     public List<Long> getRids() {
@@ -72,12 +66,8 @@ public class Entity {
         this.jid = jid;
     }
 
-    public void setAuids(List<Long> auids) {
-        this.auids = auids;
-    }
-
-    public void setAfids(List<Long> afids) {
-        this.afids = afids;
+    public void setAas(List<AA> aas) {
+        this.aas = aas;
     }
 
     public void setRids(List<Long> rids) {

@@ -39,29 +39,29 @@ public class BuildMap {
 		}
 		
 		//id to auid
-		Map<Long, List<Entity>> id2auidauid=getAuid(entity.getAuids(), SearchType.AUID, service);
-		Map<Long, Entity> map=new HashMap<>(id2idcid.size()+id2idfid.size()+id2idjid.size()+id2idrid.size());
-		map.putAll(id2idjid);
-		map.putAll(id2idfid);
-		map.putAll(id2idcid);
-		map.putAll(id2idrid);
-		ans.buildSubID(map);
-		ans.buildSubAuid(id2auidauid);
+//		Map<Long, List<Entity>> id2auidauid=getAuid(entity.getAuids(), SearchType.AUID, service);
+//		Map<Long, Entity> map=new HashMap<>(id2idcid.size()+id2idfid.size()+id2idjid.size()+id2idrid.size());
+//		map.putAll(id2idjid);
+//		map.putAll(id2idfid);
+//		map.putAll(id2idcid);
+//		map.putAll(id2idrid);
+//		ans.buildSubID(map);
+//		ans.buildSubAuid(id2auidauid);
 		return ans;
 	}
 	
 	public AuidNode getAuidTree(long auid,List<Entity> entities,DataService service) {
 		AuidNode ans=new AuidNode(auid, entities);
 		//auid to auid
-		Set<Long> afids=entities.stream().flatMap(e->e.getAfids().stream()).collect(Collectors.toSet());
-		Map<Long, List<Entity>> auid2auidafid=afids.stream()
-				.collect(Collectors.toMap(l->l, l->service.getEntities(l, SearchType.AFID)));
+//		Set<Long> afids=entities.stream().flatMap(e->e.getAfids().stream()).collect(Collectors.toSet());
+//		Map<Long, List<Entity>> auid2auidafid=afids.stream()
+//				.collect(Collectors.toMap(l->l, l->service.getEntities(l, SearchType.AFID)));
 		//auid to id
 		Set<Long> ids=entities.stream().map(e->e.getId()).collect(Collectors.toSet());
 		Map<Long, Entity> auid2idid=ids.stream()
 				.collect(Collectors.toMap(l->l, l->service.getEntities(l, SearchType.ID).get(0)));
 		//
-		ans.buildSubAuid(auid2auidafid);
+//		ans.buildSubAuid(auid2auidafid);
 		ans.buildSubID(auid2idid);
 		return ans;
 	}
