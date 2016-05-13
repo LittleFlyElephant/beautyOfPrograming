@@ -51,11 +51,11 @@ public class APIHelper {
         return null;
     }
 
-    public static JsonObject getJson(String expr, String attr){
+    public static JsonObject getJson(String expr, String attr, int count){
         try {
             URIBuilder builder = new URIBuilder("https://oxfordhk.azure-api.net/academic/v1.0/evaluate");
             builder.setParameter("expr", expr);
-            builder.setParameter("count", "10000");
+            builder.setParameter("count", String.valueOf(count));
             builder.setParameter("attributes", attr);
             builder.setParameter("subscription-key","f7cc29509a8443c5b3a5e56b0e38b5a6");
 
@@ -89,7 +89,7 @@ public class APIHelper {
         while (head <= rear){
             Long toGet = queue.get(head);
             String expr = expr_base+toGet+")";
-            JsonObject obj = getJson(expr, base);
+            JsonObject obj = getJson(expr, base, 100);
             System.out.println("get times:"+times);
             times++;
             if (obj == null) {

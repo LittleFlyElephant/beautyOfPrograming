@@ -158,7 +158,7 @@ public class FileHelper {
 
     public static void saveSingleAns(String ans, int i) {
         try {
-            FileWriter afw = new FileWriter("ans"+i+".txt", true);
+            FileWriter afw = new FileWriter("ans"+i+".txt");
             BufferedWriter abw = new BufferedWriter(afw);
 
             abw.write(ans);

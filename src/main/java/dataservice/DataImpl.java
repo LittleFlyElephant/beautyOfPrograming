@@ -53,7 +53,9 @@ public class DataImpl implements DataService {
 //            }
 //        }
 //        if (ret.size() == 0)
-        ret = getFromWeb(id, type);
+        if (type == SearchType.ID || type == SearchType.AUID || type == SearchType.RID) {
+        	ret = getFromWeb(id, type);
+		}
 //        System.out.println("id: "+id+" "+type.toString()+" "+"size:"+ret.size());
         return ret;
     }
@@ -65,8 +67,10 @@ public class DataImpl implements DataService {
         APIHelper.client = HttpClients.createDefault();
         if (type == SearchType.ID) expr_base = "Id=" + id;
         if (type == SearchType.RID) expr_base = "RId="+ id;
+        int count;
+        if (type == SearchType.ID) count = 1; else count = 100000;
         List<Entity> ret = new LinkedList<>();
-        JsonObject obj = APIHelper.getJson(expr_base, base);
+        JsonObject obj = APIHelper.getJson(expr_base, base, count);
         if (obj == null) return ret;
         JsonArray array = obj.getJsonArray("entities");
         if (array == null) return ret;
@@ -86,7 +90,7 @@ public class DataImpl implements DataService {
         String base = "Id,RId,AA.AuId,AA.AfId,F.FId,J.JId,C.CId";
         String expr_base = "Composite(" + type.toString() + "=" + id + ")";
         if (type == SearchType.ID) expr_base = "Id=" + id;
-        JsonObject obj = APIHelper.getJson(expr_base, base);
+        JsonObject obj = APIHelper.getJson(expr_base, base, 100);
         JsonArray array = obj.getJsonArray("entities");
         for (int i = 0; i < array.size(); i++) {
             JsonObject objs = array.getJsonObject(i);

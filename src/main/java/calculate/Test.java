@@ -171,7 +171,7 @@ public class Test implements CalService {
             }else{
                 for (int j = 0; j < id2_first.size(); j++) {
                     Node s_id2 = id2_first.get(j);
-                    if (s_id2.id.equals(id1_t)) continue;
+                    if (s_id2.id.equals(id1_t) && s_id2.type == id1_type) continue;
                     if (s_id1.id.equals(s_id2.id) && s_id1.type == s_id2.type){ // 2-hop
                         JsonArray s_ans = new JsonArray();
                         s_ans.add(id1_t);
