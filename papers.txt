@@ -1,0 +1,2 @@
+ssh -q -l njuuser -p 22 42.159.143.43
+scp ~/github/beautyRemote/target/BeautyOfPrograming-1.0-SNAPSHOT.jar njuuser@42.159.143.43:/home/njuuser/main-cr
