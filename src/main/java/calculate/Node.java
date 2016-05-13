@@ -12,8 +12,8 @@ import java.util.List;
 public class Node {
     public Long id;
     public SearchType type;
-    public AA aa;
-    public List<Entity> hop1;
+    public AA aa; //aa
+    public List<Entity> hop1; //下一跳
 
     public Node(Long id, SearchType type) {
         this.id = id;

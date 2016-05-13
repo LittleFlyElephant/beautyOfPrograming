@@ -124,10 +124,10 @@ public class FileHelper {
         if (aa != null)
             for (int i = 0; i < aa.size(); i++) {
                 arrayObj = aa.getJsonObject(i);
-                if (arrayObj!=null){
+                if (arrayObj != null) {
                     Long auid = arrayObj.getLong("AuId");
                     Long afid = arrayObj.getLong("AfId");
-                    if (auid!=null) aas.add(new AA(auid, afid));
+                    if (auid != null) aas.add(new AA(auid, afid));
                 }
             }
         JsonObject c = jsonObject.getJsonObject("C");
@@ -137,9 +137,9 @@ public class FileHelper {
         if (f != null)
             for (int i = 0; i < f.size(); i++) {
                 arrayObj = f.getJsonObject(i);
-                if (arrayObj!=null){
+                if (arrayObj != null) {
                     Long fid = arrayObj.getLong("FId");
-                    if (fid!=null) fids.add(fid);
+                    if (fid != null) fids.add(fid);
                 }
             }
         JsonArray r = jsonObject.getJsonArray("RId");
@@ -152,7 +152,38 @@ public class FileHelper {
         if (j != null)
             jid = j.getLong("JId");
 
-        Entity entity = new Entity(jsonObject.getLong("Id"),cid,fids,jid,aas,rids);
+        Entity entity = new Entity(jsonObject.getLong("Id"), cid, fids, jid, aas, rids);
         return entity;
+    }
+
+    public static void saveSingleAns(String ans, int i) {
+        try {
+            FileWriter afw = new FileWriter("ans"+i+".txt", true);
+            BufferedWriter abw = new BufferedWriter(afw);
+
+            abw.write(ans);
+            abw.newLine();
+
+            abw.flush();
+            abw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getSingleAns(int i) {
+        try {
+            FileReader fr = new FileReader("ans"+i+".txt");
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            line = br.readLine();
+            br.close();
+            return line;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

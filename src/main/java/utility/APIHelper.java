@@ -55,6 +55,7 @@ public class APIHelper {
         try {
             URIBuilder builder = new URIBuilder("https://oxfordhk.azure-api.net/academic/v1.0/evaluate");
             builder.setParameter("expr", expr);
+            builder.setParameter("count", "10000");
             builder.setParameter("attributes", attr);
             builder.setParameter("subscription-key","f7cc29509a8443c5b3a5e56b0e38b5a6");
 

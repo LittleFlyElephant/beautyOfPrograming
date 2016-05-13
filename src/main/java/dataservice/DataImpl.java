@@ -54,7 +54,7 @@ public class DataImpl implements DataService {
 //        }
 //        if (ret.size() == 0)
         ret = getFromWeb(id, type);
-        System.out.println("id: "+id+" "+type.toString()+" "+"size:"+ret.size());
+//        System.out.println("id: "+id+" "+type.toString()+" "+"size:"+ret.size());
         return ret;
     }
 
