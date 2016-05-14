@@ -272,17 +272,17 @@ public class Test implements CalService {
         SearchType id1_type = getIdType(id1_t);
         SearchType id2_type = getIdType(id2_t);
 
-//        Node newNode = new Node(id1_t, id1_type);
-//        Node endNode = new Node(id2_t, id2_type);
-//
-//        ansDFS = new JsonArray();
-//        JsonArray path = new JsonArray();
-//        path.add(id1_t);
-//        System.out.println("start: ");
-//        dfs(newNode, endNode, 0, path);
-//        System.out.println("end!");
-        String ans = method1(id1, id2).encode();
-        FileHelper.saveSingleAns(ans, Handler.ji);
-        return ans;
+        Node newNode = new Node(id1_t, id1_type);
+        Node endNode = new Node(id2_t, id2_type);
+
+        ansDFS = new JsonArray();
+        JsonArray path = new JsonArray();
+        path.add(id1_t);
+        System.out.println("start: ");
+        dfs(newNode, endNode, 0, path);
+        System.out.println("end!");
+//        String ans = method1(id1, id2).encode();
+//        FileHelper.saveSingleAns(ans, Handler.ji);
+        return ansDFS.encode();
     }
 }

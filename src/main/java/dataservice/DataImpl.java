@@ -53,9 +53,9 @@ public class DataImpl implements DataService {
 //            }
 //        }
 //        if (ret.size() == 0)
-        if (type == SearchType.ID || type == SearchType.AUID || type == SearchType.RID) {
+//        if (type == SearchType.ID || type == SearchType.AUID || type == SearchType.RID) {
         	ret = getFromWeb(id, type);
-		}
+//		}
 //        System.out.println("id: "+id+" "+type.toString()+" "+"size:"+ret.size());
         return ret;
     }
