@@ -8,9 +8,11 @@ import utility.FileHelper;
 import utility.SearchType;
 import web.Handler;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by raychen on 16/5/10.
@@ -35,13 +37,14 @@ public class Test implements CalService {
     private List<Node> getNextHop(Long id, SearchType type, boolean isEnd){
         List<Node> nodes = new LinkedList<>();
         List<Entity> entities = service.getEntities(id, type);
+        System.out.println("out: is end:"+entities.size());
         if (type == SearchType.AUID){
             for (Entity e: entities) {
                 Node n = new Node(e.getId(), SearchType.ID);
                 n.hop1 = service.getEntities(e.getId(), SearchType.ID);
                 nodes.add(n);
                 for (AA a: e.getAas()) {
-                    if (a.auid==id && a.afid != null) {
+                    if (a.auid.equals(id) && a.afid != null) {
                         Node node = new Node(a.afid, SearchType.AFID);
                         node.aa = a;
                         node.hop1 = service.getEntities(a.afid, SearchType.AFID);
@@ -158,7 +161,7 @@ public class Test implements CalService {
         List<Node> id2_first = getNextHop(id2_t, id2_type, true);
         long after1 = new Date().getTime();
         System.out.println("end1: "+(after1-before));
-        JsonArray ans = new JsonArray();
+        List<JsonArray> ans = new LinkedList<>();
 
         for (int i = 0; i < id1_first.size(); i++) {
             Node s_id1 = id1_first.get(i);
@@ -166,7 +169,7 @@ public class Test implements CalService {
                 JsonArray s_ans = new JsonArray();
                 s_ans.add(id1_t);
                 s_ans.add(id2_t);
-                System.out.println("find one: "+s_ans.encode());
+//                System.out.println("find one: "+s_ans.encode());
                 ans.add(s_ans);
             }else{
                 for (int j = 0; j < id2_first.size(); j++) {
@@ -177,7 +180,7 @@ public class Test implements CalService {
                         s_ans.add(id1_t);
                         s_ans.add(s_id1.id);
                         s_ans.add(id2_t);
-                        System.out.println("find one: "+s_ans.encode());
+//                        System.out.println("find one: "+s_ans.encode());
                         ans.add(s_ans);
                     } else if (hasRelation(s_id1, s_id2)){ // 3-hop
                         JsonArray s_ans = new JsonArray();
@@ -185,14 +188,24 @@ public class Test implements CalService {
                         s_ans.add(s_id1.id);
                         s_ans.add(s_id2.id);
                         s_ans.add(id2_t);
-                        System.out.println("find one: "+s_ans.encode());
+//                        System.out.println("find one: "+s_ans.encode());
                         ans.add(s_ans);
                     }
                 }
             }
         }
+
+        Collections.sort(ans, (o1, o2) -> o1.size()-o2.size());
+        List<JsonArray> noDup = ans.stream()
+                .distinct().collect(Collectors.toList());
+        JsonArray ansJson = new JsonArray();
+        noDup.forEach(e -> {
+            System.out.println("find one:"+e.encode());
+            ansJson.add(e);
+        });
+
         System.out.println("loop: "+(new Date().getTime()-after1));
-        return ans;
+        return ansJson;
     }
 
     private void addTo(List<Long> toAdd, SearchType type, List<Node> nodes){
@@ -272,17 +285,17 @@ public class Test implements CalService {
         SearchType id1_type = getIdType(id1_t);
         SearchType id2_type = getIdType(id2_t);
 
-        Node newNode = new Node(id1_t, id1_type);
-        Node endNode = new Node(id2_t, id2_type);
-
-        ansDFS = new JsonArray();
-        JsonArray path = new JsonArray();
-        path.add(id1_t);
-        System.out.println("start: ");
-        dfs(newNode, endNode, 0, path);
-        System.out.println("end!");
-//        String ans = method1(id1, id2).encode();
+//        Node newNode = new Node(id1_t, id1_type);
+//        Node endNode = new Node(id2_t, id2_type);
+//
+//        ansDFS = new JsonArray();
+//        JsonArray path = new JsonArray();
+//        path.add(id1_t);
+//        System.out.println("start: ");
+//        dfs(newNode, endNode, 0, path);
+//        System.out.println("end!");
+        String ans = method1(id1, id2).encode();
 //        FileHelper.saveSingleAns(ans, Handler.ji);
-        return ansDFS.encode();
+        return ans;
     }
 }
