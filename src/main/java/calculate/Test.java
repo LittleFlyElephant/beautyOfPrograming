@@ -295,7 +295,7 @@ public class Test implements CalService {
 //        dfs(newNode, endNode, 0, path);
 //        System.out.println("end!");
         String ans = method1(id1, id2).encode();
-//        FileHelper.saveSingleAns(ans, Handler.ji);
+        FileHelper.saveSingleAns(ans, Handler.ji);
         return ans;
     }
 }

@@ -1,6 +1,5 @@
 package dataservice;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.http.impl.client.HttpClients;
