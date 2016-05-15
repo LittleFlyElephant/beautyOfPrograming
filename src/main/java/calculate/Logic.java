@@ -8,7 +8,6 @@ import po.Entity;
 import utility.APIHelper;
 import utility.FileHelper;
 import utility.SearchType;
-import web.Handler;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -138,7 +137,8 @@ public class Logic implements CalService{
                     case AFID:
                         for (Entity e: hop1_list) {
                             for (AA author: e.getAas()) {
-                                if (author.auid.equals(start.id) && author.afid!=null && author.afid.equals(end.id)) return true;
+//                                if (author.auid.equals(start.id) && author.afid!=null && author.afid.equals(end.id)) return true;
+                                if (author.afid!=null && author.afid.equals(end.id)) return true;
                             }
                         }break;
                     default:break;
@@ -161,9 +161,9 @@ public class Logic implements CalService{
         System.out.println("end of to node --");
         //both 1-hop
         List<Node> start_hop = getFirstHop(start, false);
-        System.out.println("end of start first hop -- ");
+        System.out.println("end of start first hop -- "+start_hop.size());
         List<Node> end_hop = getFirstHop(end, true);
-        System.out.println("end of first hop");
+        System.out.println("end of first hop"+end_hop.size());
         //get answer
         JsonArray answer = new JsonArray();
         List<JsonArray> answer_list = new LinkedList<>();
@@ -182,7 +182,8 @@ public class Logic implements CalService{
                         single.add(node_start.id);
                         single.add(end.id);
                         answer_list.add(single);
-                    }else {
+                    }
+                    {
 //                        if (!node_end.id.equals(start.id) && //change
                         if (hasRelations(node_start, node_end)){//hop-3
                             JsonArray single = new JsonArray();
@@ -203,8 +204,9 @@ public class Logic implements CalService{
             System.out.println("path: "+single.encode());
             answer.add(single);
         });
+//        System.out.println(answer_distinct.size());
 
-        FileHelper.saveSingleAns(answer.encode(), Handler.ji);
+//        FileHelper.saveSingleAns(answer.encode(), Handler.ji);
         return answer.encode();
     }
 

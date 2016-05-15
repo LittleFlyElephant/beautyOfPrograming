@@ -165,6 +165,7 @@ public class Test1 implements CalService{
         }
 
         //2-hop
+        if (hop1!=null && hop2!=null)
         for (Node node1 : hop1){
             for (Node node2 : hop2){
                 if (node1.id.equals(node2.id) && (node1.type == node2.type)){
