@@ -137,8 +137,8 @@ public class Logic implements CalService{
                     case AFID:
                         for (Entity e: hop1_list) {
                             for (AA author: e.getAas()) {
-//                                if (author.auid.equals(start.id) && author.afid!=null && author.afid.equals(end.id)) return true;
-                                if (author.afid!=null && author.afid.equals(end.id)) return true;
+                                if (author.auid.equals(start.id) && author.afid!=null && author.afid.equals(end.id)) return true;
+//                                if (author.afid!=null && author.afid.equals(end.id)) return true;
                             }
                         }break;
                     default:break;

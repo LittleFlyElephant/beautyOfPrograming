@@ -29,11 +29,11 @@ public class Handler implements io.vertx.core.Handler<RoutingContext> {
 //			CalService calService = new CalImpl();
 //			DataService service = new DataImpl();
 //			Test t = new Test(service);
-			String ans = FileHelper.getSingleAns(ji);
-			if (ji != ta) ans = "[]";
+//			String ans = FileHelper.getSingleAns(ji);
+//			if (ji != ta) ans = "[]";
 			CalService calService = new Logic();
-			Test1 dnn = new Test1();
-			System.out.println(ans);
+//			Test1 dnn = new Test1();
+//			System.out.println(ans);
 			event.response().putHeader("Content-Type","application/json").end(calService.calculate(id1, id2));
 		}else
 			event.fail(403);
